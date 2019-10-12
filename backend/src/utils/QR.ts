@@ -7,7 +7,7 @@ class QR {
     const dataUrl = await QRCode.toDataURL(data);
     const base64Chunk = dataUrl.split(',')[1];
 
-    fs.writeFileSync(path.join(process.cwd(), 'asdfasdfhjadsfhjk', `${fileName}.png`), base64Chunk, 'base64');
+    fs.writeFileSync(path.join(process.cwd(), 'static', `${fileName}.png`), base64Chunk, 'base64');
   }
 }
 

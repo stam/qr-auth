@@ -13,6 +13,7 @@ const Nav = styled.nav`
   }
 
   a {
+    width: 5rem;
     color: inherit;
 
     &.active {
