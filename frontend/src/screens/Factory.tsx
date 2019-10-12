@@ -1,6 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 
+import Api from '../store/Api';
+
 const Form = styled.form`
   width: 80%;
   margin: auto;
@@ -40,11 +42,16 @@ const FactoryScreen = () => {
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = useCallback((e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-    setLoading(true);
+    // setLoading(true);
 
-    console.log('todo post', name)
+    try {
+      Api.registerMedication(name);
+    } catch (e) {
+      console.error(e);
+    }
+
   }, [name])
 
   return (
