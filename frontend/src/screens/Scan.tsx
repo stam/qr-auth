@@ -2,19 +2,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import QrReader from 'react-qr-reader';
 
+import ScanBehavior from '../behaviors/scan';
+
 const Container = styled.form`
   width: 80%;
   margin: auto;
   padding-top: 1rem;
   max-width: 800px;
 `;
-
-enum State {
-  Scanning,
-  Warning,
-  Processing,
-}
-
 
 const Warning = styled.h2`
   color: orange;
@@ -24,41 +19,21 @@ const Success = styled.h2`
   color: green;
 `;
 
+const scanBehavior = new ScanBehavior();
 
 const ScanScreen = () => {
-  const [state, setState] = useState<State>(State.Scanning);
-  const handleScan = async (data: string | null) => {
-    if (state !== State.Scanning || !data) {
-      return;
-    }
-    let medication;
-    try {
-      medication = JSON.parse(data);
-    } catch (e) {
-      // QR Scanned did not contain JSON
-      return;
-    }
-    if (!medication.id || !medication.name) {
-      // QR Scanned contains JSON but not our data
-      return;
-    }
-    setState(State.Processing);
-  };
-
-  const handleError = (error: any) => {
-    console.log('handleError', error);
-  };
+  const [qr] = useState(scanBehavior);
 
   return (
     <Container>
       <h1>Scan</h1>
-      {state === State.Warning ? (
+      {qr.isScanning ? (
         <Warning>Duplicate QR code found!</Warning>
       ) : (
         <>
-          {state === State.Scanning && <h2>Please scan a QR code...</h2>}
-          {state === State.Processing && <Success>QR Code found! Processing...</Success>}
-          <QrReader delay={200} onScan={handleScan} onError={handleError} />
+          {qr.isScanning && <h2>Please scan a QR code...</h2>}
+          {qr.isProcessing && <Success>QR Code found! Processing...</Success>}
+          <QrReader delay={200} onScan={qr.handleScan} onError={qr.handleError} />
         </>
       )}
     </Container>

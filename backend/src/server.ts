@@ -9,5 +9,6 @@ app.use(express.json());
 app.use('/api', router);
 router.get('/', (req, res) => res.send('Hello World!'));
 router.post('/medication', MedicationController.post);
+router.post('/medication/:id/verify', MedicationController.verify);
 
 export default app;
