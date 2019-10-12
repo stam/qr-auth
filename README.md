@@ -28,5 +28,7 @@ To demo this locally, run the frontend in HTTPS mode (https://create-react-app.d
 On Windows, run `set HTTPS=true && yarn start`, on UNIX based machines, run `HTTPS=true yarn start`.
 Then you can visit the url of your dev machine on your mobile device and visit the scan page there.
 
+Note: HTTPS mode uses self signed certificates so you will encounter some security warnings.
+
 ## Generating migrations
 `yarn typeorm migration:generate -n MigrationName`
