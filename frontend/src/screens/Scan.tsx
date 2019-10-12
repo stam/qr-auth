@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import QrReader from 'react-qr-reader';
+import { observer } from 'mobx-react-lite';
 
 import ScanBehavior from '../behaviors/scan';
+import Button from '../components/Button';
 
 const Container = styled.form`
   width: 80%;
@@ -27,17 +29,28 @@ const ScanScreen = () => {
   return (
     <Container>
       <h1>Scan</h1>
-      {qr.isScanning ? (
-        <Warning>Duplicate QR code found!</Warning>
-      ) : (
-        <>
-          {qr.isScanning && <h2>Please scan a QR code...</h2>}
-          {qr.isProcessing && <Success>QR Code found! Processing...</Success>}
-          <QrReader delay={200} onScan={qr.handleScan} onError={qr.handleError} />
-        </>
+
+      {qr.isIllegal && (
+        <Warning>
+          Duplicate QR code found! {qr.medication && qr.medication.name}
+          <Button type="button" onClick={qr.reset}>
+            Continue
+          </Button>
+        </Warning>
       )}
+      {qr.isSuccessFul && (
+        <Success>
+          Medication checked in! {qr.medication && qr.medication.name}
+          <Button type="button" onClick={qr.reset}>
+            Continue
+          </Button>
+        </Success>
+      )}
+      {qr.isScanning && <h2>Please scan a QR code...</h2>}
+      {qr.isProcessing && <Success>QR Code found! Processing...</Success>}
+      {!qr.isDone && <QrReader delay={0} onScan={qr.handleScan} onError={qr.handleError} />}
     </Container>
   );
 };
 
-export default ScanScreen;
+export default observer(ScanScreen);

@@ -50,8 +50,16 @@ export default class MedicationController {
     }
 
     medication.scanned_at = new Date();
-    repo.save(medication);
+    await repo.save(medication);
 
     res.send('');
+  }
+
+  static async get(req: express.Request, res: express.Response) {
+    const repo = getRepository(Medication);
+
+    const data = await repo.find();
+
+    res.send(JSON.stringify(data));
   }
 }

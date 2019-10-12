@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 
 import Api from '../store/Api';
+import Button from '../components/Button';
 
 const Form = styled.form`
   width: 80%;
@@ -20,23 +21,7 @@ const Input = styled.input`
   padding: 0.25rem 1rem;
 `;
 
-const Button = styled.button`
-  cursor: pointer;
-  margin-top: 1rem;
-  padding: 0.5rem;
-  width: 120px;
 
-  background: #2ea289;
-  border: none;
-  color: white;
-  font-size: 1rem;
-  border-radius: 4px;
-
-  &:disabled {
-    opacity: 0.4;
-    text-decoration: strikethrough;
-  }
-`;
 
 const FactoryScreen = () => {
   const [name, setName] = useState('');
@@ -48,6 +33,7 @@ const FactoryScreen = () => {
 
     try {
       await Api.registerMedication(name);
+      window.alert(`Medication ${name} successfully added`)
     } catch (e) {
       console.error(e);
     }

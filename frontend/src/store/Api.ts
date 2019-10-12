@@ -6,7 +6,11 @@ class Api {
   }
 
   verifyMedication(id: string) {
-    return axios.put(`/api/medication/${id}`);
+    return axios.post(`/api/medication/${id}/verify`);
+  }
+
+  getMedication() {
+    return axios.get(`/api/medication`);
   }
 }
 

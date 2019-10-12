@@ -9,6 +9,7 @@ import {
 import Header from './components/Header';
 import Factory from './screens/Factory';
 import Scan from './screens/Scan';
+import Demo from './screens/Demo';
 
 const App: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const App: React.FC = () => {
         <Header>
             <NavLink to="/" exact>Factory</NavLink>
             <NavLink to="/scan">Scan</NavLink>
+            <NavLink to="/demo">Demo</NavLink>
         </Header>
         <Switch>
           <Route path="/" exact>
@@ -24,6 +26,9 @@ const App: React.FC = () => {
           </Route>
           <Route path="/scan">
             <Scan />
+          </Route>
+          <Route path="/demo">
+            <Demo />
           </Route>
         </Switch>
       </div>

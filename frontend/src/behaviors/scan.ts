@@ -5,6 +5,7 @@ export enum ScanState {
   Scanning,
   Warning,
   Processing,
+  Success,
 }
 
 interface MedicationData {
@@ -24,8 +25,16 @@ export default class ScanBehavior {
     return this.state === ScanState.Processing;
   }
 
+  @computed get isDone() {
+    return this.isIllegal || this.isSuccessFul;
+  }
+
   @computed get isIllegal() {
     return this.state === ScanState.Warning;
+  }
+
+  @computed get isSuccessFul() {
+    return this.state === ScanState.Success;
   }
 
   validateQrCode(data: string) {
@@ -38,6 +47,7 @@ export default class ScanBehavior {
       // QR Scanned did not contain JSON
       return;
     }
+
     if (!medication.id || !medication.name) {
       // QR Scanned contains JSON but not our data
       return;
@@ -45,6 +55,11 @@ export default class ScanBehavior {
 
     this.medication = medication;
   }
+
+  reset = () => {
+    this.medication = undefined;
+    this.state = ScanState.Scanning;
+  };
 
   handleScan = async (data: string | null) => {
     if (this.state !== ScanState.Scanning || !data) {
@@ -60,13 +75,13 @@ export default class ScanBehavior {
 
     try {
       await Api.verifyMedication(this.medication.id);
-      this.state = ScanState.Scanning;
+      this.state = ScanState.Success;
     } catch (e) {
       this.state = ScanState.Warning;
     }
   };
 
   handleError(error: any) {
-    console.log(error);
+    console.info(error);
   }
 }

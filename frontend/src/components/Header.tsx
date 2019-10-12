@@ -13,6 +13,7 @@ const Nav = styled.nav`
   }
 
   a {
+    text-align: center;
     width: 5rem;
     color: inherit;
 
