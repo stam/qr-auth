@@ -1,9 +1,7 @@
-import * as express from 'express';
+import server from './server';
+import { createConnection } from 'typeorm';
 
-const app = express();
-const port = 4000;
-
-app.get('/', (req, res) => res.send('Hello World!'));
-app.post('/api/medication', (req, res) => res.send('Hello World!'))
-
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+const PORT = 4000;
+createConnection().then(() => {
+  server.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
+});

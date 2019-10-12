@@ -44,14 +44,15 @@ const FactoryScreen = () => {
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-    // setLoading(true);
+    setLoading(true);
 
     try {
-      Api.registerMedication(name);
+      await Api.registerMedication(name);
     } catch (e) {
       console.error(e);
     }
 
+    setLoading(false);
   }, [name])
 
   return (
